@@ -1,0 +1,46 @@
+<TranslatorScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        ScreenTitle:
+            Title:
+                text: 'Translator'
+            Logo:
+                on_press:
+                    root.manager.current = 'menu'
+        BoxLayout:
+            size_hint: 1, .8
+            GridLayout:
+                cols: 2
+                spacing: 10
+                padding: 10
+                BoxLayout:
+                    size_hint: 1, .1
+                    orientation: 'horizontal'
+                    Label:
+                        text: 'Jazyk zdroje'
+                    TextInput:
+                        id: src
+                        text: 'en'
+                        font_size: 20
+                BoxLayout:
+                    size_hint: 1, .1
+                    orientation: 'horizontal'
+                    Label:
+                        text: 'Jazyk překladu'
+                    TextInput:
+                        id: tgt
+                        text: 'cs'
+                        font_size: 20
+                TextInput:
+                    id: src_text
+                    multiline: True
+                TextInput:
+                    id: tgt_text
+                    multiline: True
+        Button:
+            size_hint: 1, .1
+            text: 'Přeložit'
+            on_release:
+                tgt_text.text = root.translate()
+        StatusBar:
+            size_hint: 1, .1

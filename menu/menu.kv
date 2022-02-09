@@ -1,0 +1,20 @@
+<MenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        ScreenTitle:
+            Title:
+                text: 'Menu'
+            Logo:
+        MenuButton:
+            text: 'Translator'
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'translator'
+        MenuButton:
+            text: 'Quit'
+            on_release:
+                app.stop()
+        BoxLayout:
+            size_hint: 1, .6
+        StatusBar:
+            size_hint: 1, .1

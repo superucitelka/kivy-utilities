@@ -1,0 +1,55 @@
+<Logo@ButtonBehavior+Image>:
+    size_hint: .1, .8
+    pos_hint: {'left': 1, 'top': .9}
+    source: 'resources/img/kivy_logo.png'
+    halign: 'center'
+    valign: 'middle'
+
+<Title@Label>:
+    size_hint: 1, 1
+    pos_hint: {'left':1, 'top': 1}
+    markup: True
+    font_size: 30
+    color: .95, .75, 0
+    halign: 'center'
+    valign: 'middle'
+    canvas.before:
+        Color:
+            rgb: 0, 0.5, 0.5
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<ScreenTitle@RelativeLayout>
+    size_hint: 1, .1
+    pos_hint: {'left':1, 'top': 1}
+    canvas.before:
+        Color:
+            rgb: 0, 0, 0.5
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<MenuButton@Button>
+    size_hint: 1, .1
+
+<StatusBar@GridLayout>
+    cols: 3
+    canvas:
+        Color:
+            rgb: .9, .9, .9
+        Rectangle:
+            size: self.size
+    Image:
+        source: 'resources/img/skola_logo.png'
+    Label:
+        text: 'Copyright IT3 PCV, 2022'
+        color: .3, .3, .3
+    Label:
+        text: '[b]Kivy[/b]'
+        markup: True
+        size: self.size
+        halign: 'right'
+        valign: 'middle'
+        font_size: 30
+        bold: True
