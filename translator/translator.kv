@@ -1,4 +1,40 @@
+<PlaySlider>:
+    size_hint: .7, 1
+
+<LanguageDropDown>:
+    Button:
+        text: 'en'
+        size_hint_y: None
+        height: 44
+        on_release: root.select(self.text)
+    Button:
+        text: 'cs'
+        size_hint_y: None
+        height: 44
+        on_release: root.select(self.text)
+    Button:
+        text: 'de'
+        size_hint_y: None
+        height: 44
+        on_release: root.select(self.text)
+    Button:
+        text: 'fr'
+        size_hint_y: None
+        height: 44
+        on_release: root.select(self.text)
+    Button:
+        text: 'ru'
+        size_hint_y: None
+        height: 44
+        on_release: root.select(self.text)
+    Button:
+        text: 'pl'
+        size_hint_y: None
+        height: 44
+        on_release: root.select(self.text)
+
 <TranslatorScreen>:
+    id: translator
     BoxLayout:
         orientation: 'vertical'
         ScreenTitle:
@@ -18,25 +54,73 @@
                     orientation: 'horizontal'
                     Label:
                         text: 'Jazyk zdroje'
-                    TextInput:
+                    Button:
                         id: src
-                        text: 'en'
-                        font_size: 20
+                        text: 'cs'
+                        on_release:
+                            root.language_dropdown.open(self)
+                    Button:
+                        text: 'TTS'
+                        on_press:
+                            root.text_to_speech('src', 'src_text')
                 BoxLayout:
                     size_hint: 1, .1
                     orientation: 'horizontal'
                     Label:
                         text: 'Jazyk překladu'
-                    TextInput:
+                    Button:
                         id: tgt
-                        text: 'cs'
-                        font_size: 20
+                        text: 'en'
+                        on_release:
+                            root.language_dropdown.open(self)
+                    Button:
+                        text: 'TTS'
+                        on_press:
+                            root.text_to_speech('tgt', 'tgt_text')
                 TextInput:
                     id: src_text
                     multiline: True
                 TextInput:
                     id: tgt_text
                     multiline: True
+                BoxLayout:
+                    size_hint: 1, .1
+                    orientation: 'horizontal'
+                    Logo:
+                        size_hint: .05, 1
+                        source: 'resources/img/play.png'
+                        on_press:
+                            self.source = 'resources/img/pause.png' if self.source == 'resources/img/play.png' else 'resources/img/play.png'
+                            root.start_player() if self.source == 'resources/img/pause.png' else root.pause_player()
+                    Logo:
+                        size_hint: .05, 1
+                        source: 'resources/img/stop.png'
+                        on_press:
+                            root.stop_player()
+                    PlaySlider:
+                        id: src_slider
+                    Label:
+                        size_hint: .1, 1
+                        text: '0:00'
+                BoxLayout:
+                    size_hint: 1, .1
+                    orientation: 'horizontal'
+                    Logo:
+                        size_hint: .05, 1
+                        source: 'resources/img/play.png'
+                        on_press:
+                            self.source = 'resources/img/pause.png' if self.source == 'resources/img/play.png' else 'resources/img/play.png'
+                            root.start_player() if self.source == 'resources/img/pause.png' else root.pause_player()
+                    Logo:
+                        size_hint: .05, 1
+                        source: 'resources/img/stop.png'
+                        on_press:
+                            root.stop_player()
+                    PlaySlider:
+                        id: tgt_slider
+                    Label:
+                        size_hint: .1, 1
+                        text: '0:00'
         Button:
             size_hint: 1, .1
             text: 'Přeložit'
