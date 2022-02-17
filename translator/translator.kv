@@ -1,3 +1,15 @@
+<PopupBox>:
+    pop_up_text: _pop_up_text
+    size_hint: .5, .3
+    auto_dismiss: True
+    title: 'Čekejte, prosím'
+
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            id: _pop_up_text
+            text: ''
+
 <PlaySlider>:
     size_hint: .7, 1
 
@@ -60,9 +72,14 @@
                         on_release:
                             root.language_dropdown.open(self)
                     Button:
+                        id: src_tts
                         text: 'TTS'
+                        disabled: True
                         on_press:
+                            root.show_popup('Probíhá převod textu do mluveného slova')
+                        on_release:
                             root.text_to_speech('src', 'src_text')
+                            root.pop_up.dismiss()
                 BoxLayout:
                     size_hint: 1, .1
                     orientation: 'horizontal'
@@ -74,57 +91,93 @@
                         on_release:
                             root.language_dropdown.open(self)
                     Button:
+                        id: tgt_tts
                         text: 'TTS'
+                        disabled: True
                         on_press:
+                            root.show_popup('Probíhá převod textu do mluveného slova')
+                        on_release:
                             root.text_to_speech('tgt', 'tgt_text')
+                            root.pop_up.dismiss()
                 TextInput:
                     id: src_text
                     multiline: True
+                    on_text:
+                        if len(self.text) > 0: src_tts.disabled = False
+                        else: src_tts.disabled = True
                 TextInput:
                     id: tgt_text
                     multiline: True
+                    on_text:
+                        if len(self.text) > 0: tgt_tts.disabled = False
+                        else: tgt_tts.disabled = True
                 BoxLayout:
                     size_hint: 1, .1
                     orientation: 'horizontal'
                     Logo:
+                        id: src_play
                         size_hint: .05, 1
                         source: 'resources/img/play.png'
+                        disabled: True
                         on_press:
-                            self.source = 'resources/img/pause.png' if self.source == 'resources/img/play.png' else 'resources/img/play.png'
-                            root.start_player() if self.source == 'resources/img/pause.png' else root.pause_player()
+                            root.start_player('src') if self.source == 'resources/img/play.png' else root.pause_player('src')
                     Logo:
+                        id: src_stop
                         size_hint: .05, 1
                         source: 'resources/img/stop.png'
+                        disabled: True
                         on_press:
-                            root.stop_player()
+                            root.stop_player('src')
                     PlaySlider:
                         id: src_slider
+                        lang: 'src'
+                        disabled: True
                     Label:
+                        id: src_time
                         size_hint: .1, 1
                         text: '0:00'
                 BoxLayout:
                     size_hint: 1, .1
                     orientation: 'horizontal'
                     Logo:
+                        id: tgt_play
                         size_hint: .05, 1
                         source: 'resources/img/play.png'
+                        disabled: True
                         on_press:
-                            self.source = 'resources/img/pause.png' if self.source == 'resources/img/play.png' else 'resources/img/play.png'
-                            root.start_player() if self.source == 'resources/img/pause.png' else root.pause_player()
+                            root.start_player('tgt') if self.source == 'resources/img/play.png' else root.pause_player('tgt')
                     Logo:
+                        id: tgt_stop
                         size_hint: .05, 1
                         source: 'resources/img/stop.png'
+                        disabled: True
                         on_press:
-                            root.stop_player()
+                            root.stop_player('tgt')
                     PlaySlider:
                         id: tgt_slider
+                        lang: 'tgt'
+                        disabled: True
                     Label:
+                        id: tgt_time
                         size_hint: .1, 1
                         text: '0:00'
-        Button:
-            size_hint: 1, .1
-            text: 'Přeložit'
-            on_release:
-                tgt_text.text = root.translate()
+                Button:
+                    size_hint: 1, .1
+                    text: 'Přeložit pomocí Lindat'
+                    on_press:
+                        root.show_popup('Něco pro vás připravujeme:\nProbíhá překlad do cílového jazyka')
+                    on_release:
+                        tgt_text.text = root.lindat_translate()
+                        root.pop_up.dismiss()
+
+                Button:
+                    size_hint: 1, .1
+                    text: 'Přeložit pomocí Google'
+                    on_press:
+                        root.show_popup('Něco pro vás připravujeme:\nProbíhá překlad do cílového jazyka')
+                    on_release:
+                        tgt_text.text = root.google_translate()
+                        root.pop_up.dismiss()
+
         StatusBar:
             size_hint: 1, .1
