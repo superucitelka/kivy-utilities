@@ -5,6 +5,7 @@ from kivy.clock import Clock
 from kivy.core.audio import SoundLoader
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty, StringProperty
+from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
 from kivy.uix.popup import Popup
 from kivy.uix.screenmanager import Screen
@@ -47,7 +48,28 @@ class PlaySlider(Slider):
             return super(PlaySlider, self).on_touch_up(touch)
 
 
+class LangButton(Button):
+    def __init__(self, lang, **kwargs):
+        super(LangButton, self).__init__(**kwargs)
+        self.text = lang
+        self.size_hint_y = None
+        self.height = 44
+
+    def on_release(self):
+        self.parent.parent.select(self.text)
+
+
 class LanguageDropDown(DropDown):
+    languages = ['cs', 'en', 'de', 'fr', 'ru', 'pl', 'it', 'es', 'pt', 'sk', 'ar', 'ja', 'sv', 'no', 'fi', 'da', 'nl']
+
+    def __init__(self, **kwargs):
+        super(LanguageDropDown, self).__init__(**kwargs)
+        for lang in self.languages:
+            # btn = Button(text=lang, size_hint_y=None, height=44)
+            # btn.bind(on_release=lambda btn: self.select(btn.text))
+            btn = LangButton(lang)
+            self.add_widget(btn)
+
     def on_select(self, data):
         self.attach_to.text = data
 
